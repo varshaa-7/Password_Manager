@@ -36,7 +36,8 @@ const Manager = () => {
     setform({...form, [e.target.name]:e.target.value})
   }
   return (
-<>
+    <>
+   
 <div className="absolute inset-0 -z-10 h-full w-full items-center bg-blue-400 px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
 <div className='mx-auto max-w-4xl'>
     <h1 className='text-white text-4xl font-bold text-center'>
@@ -59,10 +60,34 @@ const Manager = () => {
         >
     </lord-icon>
             Add Password
-        </button>
-        
+        </button>       
+    </div>
+    <div className='passwords'>
+      <h2 className='text-white text-2xl py-4 flex justify-center font-bold '>Your Passwords</h2>
+      {passwordArray.length === 0 && <div className='text-white font-bold flex justify-center'>No passwords to show</div>}
+      {passwordArray.length != 0 && 
+      <table className="table-fixed text-white w-full rounded-md overflow-hidden">
+  <thead className='bg-blue-700'>
+    <tr className='border border-white'>
+      <th className='py-2'>Site</th>
+      <th className='py-2'>Username</th>
+      <th className='py-2'>Password</th>
+    </tr>
+  </thead>
+  <tbody>
+    {passwordArray.map((item,index)=>{
+      return <tr key={index}>
+      <td className='py-2 border border-white text-center w-32'><a href={item.site} target='_blank'>{item.site}</a></td>
+      <td className='py-2 border border-white text-center w-32'>{item.username}</td>
+      <td className='py-2 border border-white text-center w-32'>{item.password}</td>
+    </tr>
+    })}
+  </tbody>
+</table>
+}
     </div>
 </div>
+
 </>
   )
 }
