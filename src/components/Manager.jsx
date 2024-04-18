@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRef,useState } from 'react';
 
 
@@ -6,6 +6,16 @@ import { useRef,useState } from 'react';
 const Manager = () => {
   const ref=useRef()
   const [form, setform] =useState({site:"", username:"",password:""})
+  const [passwordArray, setPasswordArray]=useState([])
+
+  useEffect(()=>{
+    let passwords=localStorage.getItem("passwords");
+    
+    if(passwords){
+      setPasswordArray(JSON.parse(passwords))
+    }
+  },[])
+
   const showPassword = () =>{
     alert("Show the password");
     console.log(ref.current.src)
@@ -17,7 +27,9 @@ const Manager = () => {
   }
 
   const savePassword =()=>{
-    console.log(form)
+    setPasswordArray([...passwordArray, form])
+    localStorage.setItem("passwords", JSON.stringify([...passwordArray,form]))
+    console.log(...passwordArray)
   }
 
   const handleChange = (e)=>{
