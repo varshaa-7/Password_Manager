@@ -2,7 +2,9 @@
 import React, { useEffect } from 'react'
 import { useRef,useState } from 'react';
 
+import { ToastContainer, toast } from 'react-toastify';
 
+import 'react-toastify/dist/ReactToastify.css';
 
 const Manager = () => {
   const ref=useRef()
@@ -19,6 +21,17 @@ const Manager = () => {
   },[])
 
   const copyText = (text) => {
+    toast('Copied to clipboard', {
+      position: "top-right",
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+      
+      });
     navigator.clipboard.writeText(text)
   }
 
@@ -48,6 +61,23 @@ const Manager = () => {
   }
   return (
     <>
+
+<ToastContainer
+position="top-right"
+autoClose={5000}
+hideProgressBar={false}
+newestOnTop={false}
+closeOnClick
+rtl={false}
+pauseOnFocusLoss
+draggable
+pauseOnHover
+theme="light"
+transition= "Bounce"
+/>
+{/* Same as */}
+<ToastContainer />
+
    
 <div className="absolute inset-0 -z-10 h-full w-full items-center bg-blue-900 px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
 <div className='mx-auto max-w-4xl'>
