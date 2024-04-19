@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React, { useEffect } from 'react'
 import { useRef,useState } from 'react';
 
@@ -5,6 +6,7 @@ import { useRef,useState } from 'react';
 
 const Manager = () => {
   const ref=useRef()
+  const passwordRef=useRef()
   const [form, setform] =useState({site:"", username:"",password:""})
   const [passwordArray, setPasswordArray]=useState([])
 
@@ -16,13 +18,22 @@ const Manager = () => {
     }
   },[])
 
+  const copyText = (text) => {
+    navigator.clipboard.writeText(text)
+  }
+
   const showPassword = () =>{
-    alert("Show the password");
+    passwordRef.current.type="text"
+    
     console.log(ref.current.src)
     if(ref.current.src.includes('icons/eyecross.png')){
       ref.current.src="icons/eye.png"
+      passwordRef.current.type="text"
+
     }else{
       ref.current.src = "icons/eyecross.png"
+      passwordRef.current.type="password"
+
     }
   }
 
@@ -38,7 +49,7 @@ const Manager = () => {
   return (
     <>
    
-<div className="absolute inset-0 -z-10 h-full w-full items-center bg-blue-400 px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
+<div className="absolute inset-0 -z-10 h-full w-full items-center bg-blue-900 px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
 <div className='mx-auto max-w-4xl'>
     <h1 className='text-white text-4xl font-bold text-center'>
         <span className='text-blue-800'> &lt;</span>Pass<span className='text-blue-800'>OO/&gt;</span></h1>
@@ -48,7 +59,7 @@ const Manager = () => {
         <div className='flex text-color w-full justify-between'>
         <input value={form.username} placeholder='Enter Username' onChange={handleChange} className='rounded-full border-2 border-blue-500 border-solid w-full p-4 py-1 text-black' type='text' name='username' id=''/>
         <div className='relative'>
-        <input value={form.password} placeholder='Enter password' onChange={handleChange} className='rounded-full border-2 border-blue-500 border-solid w-full p-4 py-1 text-black' type='text' name='password' id=''/>
+        <input ref={passwordRef} value={form.password} placeholder='Enter password' onChange={handleChange} className='rounded-full border-2 border-blue-500 border-solid w-full p-4 py-1 text-black' type='password' name='password' id=''/>
         <span className='absolute right-[3px] top-[4px] text-black cursor-pointer' onClick={showPassword}><img ref={ref} className='p-1' width={26} src='icons/eye.png' alt='eye'/></span>
         </div>
         </div>
@@ -77,9 +88,47 @@ const Manager = () => {
   <tbody>
     {passwordArray.map((item,index)=>{
       return <tr key={index}>
-      <td className='py-2 border border-white text-center w-32'><a href={item.site} target='_blank'>{item.site}</a></td>
-      <td className='py-2 border border-white text-center w-32'>{item.username}</td>
-      <td className='py-2 border border-white text-center w-32'>{item.password}</td>
+      <td className='text-white py-2 border border-white text-center flex justify-center'><a href={item.site} target='_blank'>{item.site}</a>
+      <div className='size-7 cursor-pointer' onClick={()=>{copyText(item.site)}}>
+      <lord-icon className='text-white'
+      style={{"width":"25px", "heigth":"25px"}}
+    src="https://cdn.lordicon.com/vdjwmfqs.json"
+    trigger="hover"
+    colors="primary:#ffffff"
+    >
+</lord-icon>
+</div>
+      </td>
+      <td className='py-2 border border-white text-center w-32'>
+      <div className='flex items-center justify-center'>
+        <span>{item.username}</span>
+        
+      <div className='size-7 cursor-pointer' onClick={()=>{copyText(item.username)}}>
+      <lord-icon className='text-white'
+      style={{"width":"25px", "heigth":"25px"}}
+    src="https://cdn.lordicon.com/vdjwmfqs.json"
+    trigger="hover"
+    colors="primary:#ffffff"
+    >
+</lord-icon>
+</div></div>
+      </td>
+      
+      <td className='py-2 border border-white text-center w-32'>
+        <div className='flex items-center justify-center'>
+        <span>{item.password}</span>
+
+      <div className='lordiconcopy size-7 cursor-pointer' onClick={()=>{copyText(item.password)}}>
+      <lord-icon className='text-white'
+      style={{"width":"25px", "heigth":"25px"}}
+    src="https://cdn.lordicon.com/vdjwmfqs.json"
+    trigger="hover"
+    colors="primary:#ffffff"
+    >
+</lord-icon>
+</div>
+</div>
+      </td>
     </tr>
     })}
   </tbody>
