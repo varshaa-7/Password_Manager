@@ -29,7 +29,7 @@ const Manager = () => {
       pauseOnHover: true,
       draggable: true,
       progress: undefined,
-      theme: "light",
+      theme: "dark",
       
       });
     navigator.clipboard.writeText(text)
@@ -51,10 +51,37 @@ const Manager = () => {
   }
 
   const savePassword =()=>{
-    setPasswordArray([...passwordArray, {...form, id:uuidv4()}])
-    localStorage.setItem("passwords", JSON.stringify([...passwordArray, {...form, id:uuidv4()}]))
-    console.log(...passwordArray)
-    setform({site:"", username:"",password:""})
+    if(form.site.length>3 && form.username.length>3 && form.password.length>3){
+      setPasswordArray([...passwordArray, {...form, id:uuidv4()}])
+      localStorage.setItem("passwords", JSON.stringify([...passwordArray, {...form, id:uuidv4()}]))
+      console.log(...passwordArray)
+      setform({site:"", username:"",password:""})
+      toast('Password saved successfully!', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        
+        });
+    }else{
+      toast('Error: Password not saved', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        
+        });
+    }
+      
+    
   }
   const deletePassword =(id)=>{
     console.log("Deleting password with id ",id)
@@ -62,7 +89,17 @@ const Manager = () => {
     if(c){
       setPasswordArray(passwordArray.filter(item=>item.id!==id))
       localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item=>item.id!==id)))
-      
+      toast('Password successfully deleted', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "dark",
+        
+        });
     }
     
   }
@@ -97,17 +134,17 @@ transition= "Bounce"
 <ToastContainer />
 
    
-<div className="absolute inset-0 -z-10 h-full w-full items-center bg-blue-900 px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
-<div className='mx-auto max-w-4xl'>
+<div className="fixed inset-0 z-[-10] h-screen w-screen flex items-center px-5 py-24 [background:radial-gradient(125%_125%_at_50%_10%,#000_40%,#63e_100%)]"></div>
+<div className='p-2 md:p-0 md:mycontainer'>
     <h1 className='text-white text-4xl font-bold text-center'>
         <span className='text-blue-800'> &lt;</span>Pass<span className='text-blue-800'>OO/&gt;</span></h1>
     <p className='text-blue-800 text-center'>Your own Password Manager</p>
     <div className='text-white flex flex-col p-4 gap-4 items-center'>
-        <input value={form.site} placeholder='Enter wbesite URL' onChange={handleChange} className='rounded-full border-2 border-blue-500 border-solid w-full p-4 py-1 text-black' type='text' name='site' id=''/>
-        <div className='flex text-color w-full justify-between'>
-        <input value={form.username} placeholder='Enter Username' onChange={handleChange} className='rounded-full border-2 border-blue-500 border-solid w-full p-4 py-1 text-black' type='text' name='username' id=''/>
+        <input value={form.site} placeholder='Enter wbesite URL' onChange={handleChange} className='rounded-full border-2 border-blue-500 border-solid w-full p-4 py-1 text-black' type='text' name='site' id='site'/>
+        <div className='flex flex-col md:flex-row text-color w-full justify-between'>
+        <input value={form.username} placeholder='Enter Username' onChange={handleChange} className='rounded-full border-2 border-blue-500 border-solid w-full p-4 py-1 text-black' type='text' name='username' id='username'/>
         <div className='relative'>
-        <input ref={passwordRef} value={form.password} placeholder='Enter password' onChange={handleChange} className='rounded-full border-2 border-blue-500 border-solid w-full p-4 py-1 text-black' type='password' name='password' id=''/>
+        <input ref={passwordRef} value={form.password} placeholder='Enter password' onChange={handleChange} className='rounded-full border-2 border-blue-500 border-solid w-full p-4 py-1 text-black' type='password' name='password' id='password'/>
         <span className='absolute right-[3px] top-[4px] text-black cursor-pointer' onClick={showPassword}><img ref={ref} className='p-1' width={26} src='icons/eye.png' alt='eye'/></span>
         </div>
         </div>
@@ -125,7 +162,7 @@ transition= "Bounce"
       <h2 className='text-white text-2xl py-4 flex justify-center font-bold '>Your Passwords</h2>
       {passwordArray.length === 0 && <div className='text-white font-bold flex justify-center'>No passwords to show</div>}
       {passwordArray.length != 0 && 
-      <table className="table-fixed text-white w-full rounded-md overflow-hidden">
+      <table className="table-fixed text-white w-full rounded-md overflow-hidden mb-10">
   <thead className='bg-blue-700'>
     <tr className='border border-white'>
       <th className='py-2'>Site</th>
